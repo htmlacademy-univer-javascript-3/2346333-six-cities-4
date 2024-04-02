@@ -1,4 +1,4 @@
-export function MainEmptyScreen(): JSX.Element {
+export function OfferNotLoggedScreen(): JSX.Element {
   return (
     <div className="page">
       <header className="header">

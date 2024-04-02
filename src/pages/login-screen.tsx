@@ -1,4 +1,4 @@
-export function FavoritesScreen(): JSX.Element {
+export function LoginScreen(): JSX.Element {
   return (
     <div className="page page--gray page--login">
       <header className="header">
