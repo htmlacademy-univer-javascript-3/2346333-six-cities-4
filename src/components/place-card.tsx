@@ -7,6 +7,7 @@ type CardProps = {
 }
 
 export function PlaceCard({ offer }: CardProps): JSX.Element {
+
   return (
     <article className="cities__card place-card">
       {offer.isPremium ? (
