@@ -1,23 +1,12 @@
-import { PlaceCard } from '../components/place-card';
+import { OfferList } from '../components/offer-list';
+import { Offers } from '../types/offer';
 
 type MainScreenProps = {
   offerCount: number;
+  offers: Offers;
 }
 
-export function MainScreen({offerCount}: MainScreenProps): JSX.Element {
-
-  const cardData = [
-    { id: '1', imagePath: 'img/apartment-01.jpg', cardName: 'Beautiful &amp; luxurious apartment at great location',
-      cardType: 'Apartment', price: 120, isPremium: true, isActive: false },
-    { id: '2', imagePath: 'img/room.jpg', cardName: 'Wood and stone place',
-      cardType: 'Room', price: 80, isPremium: false, isActive: true },
-    { id: '3', imagePath: 'img/apartment-02.jpg', cardName: 'Canal View Prinsengracht',
-      cardType: 'Apartment', price: 132, isPremium: false, isActive: false },
-    { id: '4', imagePath: 'img/apartment-03.jpg', cardName: 'Nice, cozy, warm big bed apartment',
-      cardType: 'Apartment', price: 180, isPremium: true, isActive: false },
-    { id: '5', imagePath: 'img/room.jpg', cardName: 'Wood and stone place',
-      cardType: 'Room', price: 80, isPremium: false, isActive: true },
-  ];
+export function MainScreen({offerCount, offers}: MainScreenProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -108,19 +97,7 @@ export function MainScreen({offerCount}: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {cardData.map((place) => (
-                  <PlaceCard
-                    key={place.id}
-                    imagePath={place.imagePath}
-                    cardName={place.cardName}
-                    cardType={place.cardType}
-                    price={place.price}
-                    isPremium={place.isPremium}
-                    isActive={place.isActive}
-                  />
-                ))}
-              </div>
+              <OfferList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

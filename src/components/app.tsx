@@ -7,19 +7,23 @@ import { FavoritesScreen } from '../pages/favorites-screen';
 import { OfferScreen } from '../pages/offer-screen';
 import { NotFoundScreen } from '../pages/not-found-screen';
 import { PrivateRoute } from './private-route';
+import { Offers } from '../types/offer';
+import React from 'react';
 
 type AppScreenProps = {
   offerCount: number;
+  offers: Offers;
 }
 
-export function App({offerCount}: AppScreenProps): JSX.Element {
+export function App({offerCount, offers}: AppScreenProps): JSX.Element {
+  const [choosenOffer] = React.useState(offers[0]);
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainScreen offerCount={offerCount} />}
+            element={<MainScreen offerCount={offerCount} offers={offers}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -29,15 +33,15 @@ export function App({offerCount}: AppScreenProps): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen />
+                <FavoritesScreen offers={offers}/>
               </PrivateRoute>
             }
           />
           <Route
-            path={AppRoute.Offer}
-            element={<OfferScreen />}
+            path={`${AppRoute.Offer}/:offerId`}
+            element={<OfferScreen offer={choosenOffer}/>}
           />
           <Route
             path="*"
