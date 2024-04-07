@@ -1,12 +1,17 @@
 import { OfferList } from '../components/offer-list';
+import { City, Coordinates } from '../types/coordinate';
 import { Offers } from '../types/offer';
+import { Map } from '../components/map';
 
 type MainScreenProps = {
   offerCount: number;
   offers: Offers;
+  city: City;
+  coordinates: Coordinates;
 }
 
-export function MainScreen({offerCount, offers}: MainScreenProps): JSX.Element {
+export function MainScreen({offerCount, offers, city, coordinates}: MainScreenProps): JSX.Element {
+
 
   return (
     <div className="page page--gray page--main">
@@ -100,7 +105,9 @@ export function MainScreen({offerCount, offers}: MainScreenProps): JSX.Element {
               <OfferList offers={offers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                {<Map city={city} coordinates={coordinates} selectedPoint={undefined}/>}
+              </section>
             </div>
           </div>
         </div>
