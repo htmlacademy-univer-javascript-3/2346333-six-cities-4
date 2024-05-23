@@ -1,17 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { OfferList } from '../components/offer-list';
-import { City, Coordinates } from '../types/coordinate';
-import { Offers } from '../types/offer';
 import { Map } from '../components/map';
+import { changeCity } from '../store/action';
+import { RootState } from '../store';
+import { CityList } from '../components/city-list';
 
-type MainScreenProps = {
-  offerCount: number;
-  offers: Offers;
-  city: City;
-  coordinates: Coordinates;
-}
-
-export function MainScreen({offerCount, offers, city, coordinates}: MainScreenProps): JSX.Element {
-
+export function MainScreen(): JSX.Element {
+  const dispatch = useDispatch();
+  const city = useSelector((state: RootState) => state.city);
+  const offers = useSelector((state: RootState) => state.offers);
+  const coordinates = offers.map((point) => point.city);
+  const offerCount = offers.length;
 
   return (
     <div className="page page--gray page--main">
@@ -20,7 +19,7 @@ export function MainScreen({offerCount, offers, city, coordinates}: MainScreenPr
           <div className="header__wrapper">
             <div className="header__left">
               <a className="header__logo-link header__logo-link--active">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
             <nav className="header__nav">
@@ -48,45 +47,14 @@ export function MainScreen({offerCount, offers, city, coordinates}: MainScreenPr
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CityList selectedCity={city} changeCity={(newCity) => dispatch(changeCity(newCity))} />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offerCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offerCount} places to stay in {city.title}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -102,11 +70,11 @@ export function MainScreen({offerCount, offers, city, coordinates}: MainScreenPr
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers}/>
+              <OfferList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                {<Map city={city} coordinates={coordinates} selectedPoint={undefined}/>}
+                <Map city={city} coordinates={coordinates} selectedPoint={undefined} />
               </section>
             </div>
           </div>

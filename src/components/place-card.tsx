@@ -17,7 +17,7 @@ export function PlaceCard({ offer }: CardProps): JSX.Element {
       ) : null}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={offer.imagePath} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={offer.image[0]} width="260" height="200" alt="Place image"/>
         </a>
       </div>
       <div className="place-card__info">
@@ -49,9 +49,9 @@ export function PlaceCard({ offer }: CardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/:${offer.id}`}>{offer.cardName}</Link>
+          <Link to={`${AppRoute.Offer}/:${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.cardType}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );
