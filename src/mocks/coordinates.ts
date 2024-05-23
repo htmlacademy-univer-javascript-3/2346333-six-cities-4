@@ -1,25 +1,25 @@
-import { Coordinates } from '../types/coordinate';
+import { Coordinate } from '../types/coordinate';
 
-export const coordinates: Coordinates =
+export const coordinates: Coordinate[] =
     [
       {
-        title: 'Amsterdam',
         lat: 52.3909553943508,
         lng: 4.85309666406198,
+        zoom: 2,
       },
       {
-        title: 'Paris',
         lat: 52.3609553943508,
         lng: 4.85309666406198,
+        zoom: 2,
       },
       {
-        title: 'Rome',
         lat: 52.3909553943508,
         lng: 4.929309666406198,
+        zoom: 2,
       },
       {
-        title: 'Vienna',
         lat: 52.3809553943508,
         lng: 4.939309666406198,
+        zoom: 2,
       },
     ];
