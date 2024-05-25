@@ -32,13 +32,13 @@ export function Map({ city, coordinates, selectedPoint }: MapProps): JSX.Element
       const markerLayer = layerGroup().addTo(map);
       coordinates.forEach((point) => {
         const marker = new Marker({
-          lat: point.coordinates.lat,
-          lng: point.coordinates.lng
+          lat: point.location.latitude,
+          lng: point.location.longitude
         });
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
+            selectedPoint !== undefined && point.name === selectedPoint.name
               ? currentCustomIcon
               : defaultCustomIcon
           )

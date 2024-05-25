@@ -1,10 +1,10 @@
 export type Coordinate = {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
     zoom: number;
 };
 
 export type City = {
-    title: string;
-    coordinates: Coordinate;
+    name: string;
+    location: Coordinate;
 };
