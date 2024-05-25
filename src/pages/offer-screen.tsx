@@ -11,9 +11,10 @@ import { Map } from '../components/map';
 export function OfferScreen(): JSX.Element {
 
   const { offerId } = useParams();
-  const numId = String(offerId).replace(/[^0-9]/g, '');
+  const numId = String(offerId).replace(/:/g, '');
   const offers = useSelector((state: State) => state.offers);
   const selectedOffer = offers.find((offer) => offer.id === numId);
+  console.log(selectedOffer);
 
   return (
     <div className="page">
@@ -247,7 +248,20 @@ export function OfferScreen(): JSX.Element {
           </main>
         </>
       ) : (
-        <p>Offer not found</p>
+        <p style={{
+          color: '#fff',
+          backgroundColor: '#e74c3c',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          textAlign: 'center',
+          margin: '10px 0',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+          fontSize: '1em',
+          fontFamily: 'Arial, sans-serif'
+        }}
+        >
+            Offer not found
+        </p>
       )}
     </div>
   );
