@@ -1,14 +1,31 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { offers } from '../mocks/offers';
-import { changeCity, changeSortOption, fillOfferList } from './action';
-import { city } from '../mocks/city';
-import { SortType } from '../const';
+import { changeCity, changeSortOption, loadOfferList, requireAuthorization, setError, setOffersDataLoadingStatus } from './action';
+import { AuthorizationStatus, SortType } from '../const';
+import { City } from '../types/coordinate';
+import { Offers } from '../types/offer';
 
+type InitialState = {
+  city: City;
+  offers: Offers;
+  sortingOption: SortType;
+  authorizationStatus: AuthorizationStatus;
+  error: string | null;
+  isOffersDataLoading: boolean;
+}
 
-const initialState = {
-  city: city,
-  offers: offers,
+const initialState: InitialState = {
+  city: {
+    name: '',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0
+    }},
+  offers: [],
   sortingOption: SortType.Start,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
+  isOffersDataLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -16,10 +33,19 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(fillOfferList, (state, action) => {
+    .addCase(loadOfferList, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(changeSortOption, (state, action) => {
       state.sortingOption = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
     });
 });

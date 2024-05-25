@@ -1,11 +1,11 @@
-import { Offers } from '../types/offer';
+
 import { OfferList } from '../components/offer-list';
+import { useSelector } from 'react-redux';
+import { State } from '../types/state';
 
-type FavoritesScreenProps = {
-  offers: Offers;
-}
 
-export function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
+export function FavoritesScreen(): JSX.Element {
+  const offers = useSelector((state: State) => state.offers);
   return (
     <div className="page">
       <header className="header">

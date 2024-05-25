@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OfferList } from '../components/offer-list';
 import { Map } from '../components/map';
 import { changeCity, changeSortOption } from '../store/action';
-import { RootState } from '../store';
+import { State } from '../types/state';
 import { CityList } from '../components/city-list';
 import { SortOptions } from '../components/sort-options';
 import { SortType } from '../const';
@@ -11,9 +11,9 @@ import { sortOffers } from '../util';
 
 export function MainScreen(): JSX.Element {
   const dispatch = useDispatch();
-  const city = useSelector((state: RootState) => state.city);
-  const offers = useSelector((state: RootState) => state.offers);
-  const selectedOption = useSelector((state: RootState) => state.sortingOption);
+  const city = useSelector((state: State) => state.city);
+  const offers = useSelector((state: State) => state.offers);
+  const selectedOption = useSelector((state: State) => state.sortingOption);
 
   const sortedOffers = useMemo(() => sortOffers(offers, selectedOption), [offers, selectedOption]);
   const coordinates = offers.map((point) => point.city);
@@ -65,7 +65,7 @@ export function MainScreen(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offerCount} places to stay in {city.title}</b>
+              <b className="places__found">{offerCount} places to stay in {city.name}</b>
               <SortOptions sortType={selectedOption} onChangeSort={handleSortChange}/>
               <OfferList offers={sortedOffers} />
             </section>

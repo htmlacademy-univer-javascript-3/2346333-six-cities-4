@@ -1,22 +1,24 @@
 import { City } from './coordinate';
-import { Author, Reviews } from './review';
+import { User } from './comment';
 
 export type Offer = {
     id: string;
-    image: string[];
     title: string;
-    description: string;
-    isPremium: boolean;
     type: string;
-    rating: number;
-    numOfBedrooms: number;
-    numOfAdults: number;
     price: number;
-    amenitie: string[];
-    owner: Author;
-    isActive: boolean;
-    reviews: Reviews;
     city: City;
+    location: Location;
+    isFavorite: boolean;
+    isPremium: boolean;
+    rating: number;
+    previewImage: string;
+    description: string;
+    bedrooms: number;
+    muxAdults: number;
+    goods: string[];
+    host: User;
+    images: string[];
+    isActive: boolean;
 };
 
 export type Offers = Offer[];

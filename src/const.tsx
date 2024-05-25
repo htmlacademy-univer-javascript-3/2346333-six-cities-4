@@ -4,11 +4,19 @@ export const Setting = {
   offerCount: 5
 };
 
-export enum AppRoute {
-  Root = '/',
+export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
+  Root = '/'
+}
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Logout = '/logout',
 }
 
 export enum AuthorizationStatus {
@@ -16,6 +24,8 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

@@ -1,4 +1,5 @@
-import { Offers } from '../types/offer';
+import { State } from '../types/state';
+import { useSelector } from 'react-redux';
 import { AppRoute } from '../const';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -6,13 +7,12 @@ import { CommentForm } from '../components/comment-form';
 import { ReviewList } from '../components/review-list';
 import { Map } from '../components/map';
 
-type OfferScreenProps = {
-  offers: Offers;
-}
 
-export function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+export function OfferScreen(): JSX.Element {
+
   const { offerId } = useParams();
   const numId = String(offerId).replace(/[^0-9]/g, '');
+  const offers = useSelector((state: State) => state.offers);
   const selectedOffer = offers.find((offer) => offer.id === numId);
 
   return (
@@ -54,7 +54,7 @@ export function OfferScreen({offers}: OfferScreenProps): JSX.Element {
             <section className="offer">
               <div className="offer__gallery-container container">
                 <div className="offer__gallery">
-                  {selectedOffer.image.map((image, index) => (
+                  {selectedOffer.images.map((image, index) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <div key={index} className="offer__image-wrapper">
                       <img className="offer__image" src={image} alt={selectedOffer.type} />
@@ -103,7 +103,7 @@ export function OfferScreen({offers}: OfferScreenProps): JSX.Element {
                   <div className="offer__inside">
                     <h2 className="offer__inside-title">What&apos;s inside</h2>
                     <ul className="offer__inside-list">
-                      {selectedOffer.amenitie.map((thing, index) => (
+                      {selectedOffer.goods.map((thing, index) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <li key={index} className="offer__inside-item">
                           {thing}
@@ -115,10 +115,10 @@ export function OfferScreen({offers}: OfferScreenProps): JSX.Element {
                     <h2 className="offer__host-title">Meet the host</h2>
                     <div className="offer__host-user user">
                       <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                        <img className="offer__avatar user__avatar" src={selectedOffer.owner.avatar.src} width={74} height={74} alt={selectedOffer.owner.avatar.alt} />
+                        <img className="offer__avatar user__avatar" src={selectedOffer.host.avatarUrl} width={74} height={74} alt={selectedOffer.host.avatarUrl} />
                       </div>
                       <span className="offer__user-name">
-                        {selectedOffer.owner.author}
+                        {selectedOffer.host.name}
                       </span>
                       <span className="offer__user-status">
                 Pro
