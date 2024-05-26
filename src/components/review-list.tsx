@@ -1,34 +1,36 @@
-import { Offer } from '../types/offer';
+import { Comments } from '../types/comment';
 
-type ReviewProps = {
-    offer: Offer;
-  }
+type ReviewListProps = {
+  comments: Comments;
+};
 
-export function ReviewList({offer}: ReviewProps): JSX.Element {
+export function ReviewList({ comments }: ReviewListProps): JSX.Element {
   return (
     <ul className="reviews__list">
-      {offer.reviews.map((review) => (
-        <li className="reviews__item" key={offer.id + review.id}>
+      {comments.map((review) => (
+        <li className="reviews__item" key={review.id}>
           <div className="reviews__user user">
             <div className="reviews__avatar-wrapper user__avatar-wrapper">
-              <img className="reviews__avatar user__avatar" src={review.avatar.src} width={54} height={54} alt="Reviews avatar" />
+              <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width={54} height={54} alt="Reviews avatar" />
             </div>
             <span className="reviews__user-name">
-              {review.author}
+              {review.user.name}
             </span>
           </div>
           <div className="reviews__info">
             <div className="reviews__rating rating">
               <div className="reviews__stars rating__stars">
-                <span style={{width: '80%'}} />
+                <span style={{ width: `${review.rating * 20}%` }} />
                 <span className="visually-hidden">{review.rating}</span>
               </div>
             </div>
             <p className="reviews__text">
-              {review.description}
+              {review.comment}
             </p>
-            <time className="reviews__time" dateTime="2019-04-24">{review.date}</time>
+            <time className="reviews__time" dateTime={review.date}>{new Date(review.date).toLocaleDateString()}</time>
           </div>
-        </li>))}
-    </ul>);
+        </li>
+      ))}
+    </ul>
+  );
 }

@@ -1,24 +1,44 @@
 import { State } from '../types/state';
 import { useSelector } from 'react-redux';
 import { AppRoute } from '../const';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { CommentForm } from '../components/comment-form';
 import { ReviewList } from '../components/review-list';
 import { Map } from '../components/map';
+import { fetchOfferAction } from '../services/api-actions';
+import { useEffect, useRef, useState } from 'react';
+import { useAppDispatch } from '../hooks';
 
 
 export function OfferScreen(): JSX.Element {
 
-  const { offerId } = useParams();
-  const numId = String(offerId).replace(/:/g, '');
-  const offers = useSelector((state: State) => state.offers);
-  const selectedOffer = offers.find((offer) => offer.id === numId);
-  console.log(selectedOffer);
+  const dispatch = useAppDispatch();
+  const location = useLocation().pathname;
+  const id = location.substring(location.lastIndexOf('/') + 1).replace(':', '');
+
+  const TIMEOUT = 100000;
+  useEffect(() => {
+    let isMounted = true;
+
+    setTimeout(() => {
+      if (isMounted) {
+        dispatch(fetchOfferAction(id));
+      }
+    }, TIMEOUT);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch, id]);
+
+  const currentOffer = useSelector((state: State) => state.currentOffer);
+  const comments = useSelector((state: State) => state.comments);
+  const nearbyOffers = useSelector((state: State) => state.nearOffers);
 
   return (
     <div className="page">
-      {selectedOffer ? (
+      {currentOffer ? (
         <>
           <Helmet>
             <title>6 городов</title>
@@ -55,10 +75,10 @@ export function OfferScreen(): JSX.Element {
             <section className="offer">
               <div className="offer__gallery-container container">
                 <div className="offer__gallery">
-                  {selectedOffer.images.map((image, index) => (
+                  {currentOffer.images.map((image, index) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <div key={index} className="offer__image-wrapper">
-                      <img className="offer__image" src={image} alt={selectedOffer.type} />
+                      <img className="offer__image" src={image} alt={currentOffer.type} />
                     </div>
                   ))}
                 </div>
@@ -66,11 +86,11 @@ export function OfferScreen(): JSX.Element {
               <div className="offer__container container">
                 <div className="offer__wrapper">
                   <div className="offer__mark">
-                    <span>{selectedOffer.isPremium ? 'Premium' : 'Not premium'}</span>
+                    <span>{currentOffer.isPremium ? 'Premium' : 'Not premium'}</span>
                   </div>
                   <div className="offer__name-wrapper">
                     <h1 className="offer__name">
-                      {selectedOffer.title}
+                      {currentOffer.title}
                     </h1>
                     <button className="offer__bookmark-button button" type="button">
                       <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -84,11 +104,11 @@ export function OfferScreen(): JSX.Element {
                       <span style={{width: '80%'}} />
                       <span className="visually-hidden">Rating</span>
                     </div>
-                    <span className="offer__rating-value rating__value">{selectedOffer.rating}</span>
+                    <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
                   </div>
                   <ul className="offer__features">
                     <li className="offer__feature offer__feature--entire">
-                      {selectedOffer.type}
+                      {currentOffer.type}
                     </li>
                     <li className="offer__feature offer__feature--bedrooms">
               3 Bedrooms
@@ -98,13 +118,13 @@ export function OfferScreen(): JSX.Element {
                     </li>
                   </ul>
                   <div className="offer__price">
-                    <b className="offer__price-value">€{selectedOffer.price}</b>
+                    <b className="offer__price-value">€{currentOffer.price}</b>
                     <span className="offer__price-text">&nbsp;night</span>
                   </div>
                   <div className="offer__inside">
                     <h2 className="offer__inside-title">What&apos;s inside</h2>
                     <ul className="offer__inside-list">
-                      {selectedOffer.goods.map((thing, index) => (
+                      {currentOffer.goods.map((thing, index) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <li key={index} className="offer__inside-item">
                           {thing}
@@ -116,10 +136,10 @@ export function OfferScreen(): JSX.Element {
                     <h2 className="offer__host-title">Meet the host</h2>
                     <div className="offer__host-user user">
                       <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                        <img className="offer__avatar user__avatar" src={selectedOffer.host.avatarUrl} width={74} height={74} alt={selectedOffer.host.avatarUrl} />
+                        <img className="offer__avatar user__avatar" src={currentOffer.host.avatarUrl} width={74} height={74} alt={currentOffer.host.avatarUrl} />
                       </div>
                       <span className="offer__user-name">
-                        {selectedOffer.host.name}
+                        {currentOffer.host.name}
                       </span>
                       <span className="offer__user-status">
                 Pro
@@ -127,20 +147,20 @@ export function OfferScreen(): JSX.Element {
                     </div>
                     <div className="offer__description">
                       <p className="offer__text">
-                        {selectedOffer.description}
+                        {currentOffer.description}
                       </p>
                     </div>
                   </div>
                   <section className="offer__reviews reviews">
-                    <h2 className="reviews__title">Reviews · <span className="reviews__amount">{selectedOffer.reviews.length}</span></h2>
-                    <ReviewList offer={selectedOffer} />
-                    <CommentForm/>
+                    <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
+                    <ReviewList comments={comments} />
+                    <CommentForm />
+                  </section>
+                  <section className="offer__map map">
+                    <Map city={currentOffer.city} coordinates={nearbyOffers.map((offer) => offer.city)} selectedPoint={currentOffer.city}/>
                   </section>
                 </div>
               </div>
-              <section className="offer__map map">
-                <Map city={selectedOffer.city} coordinates={[selectedOffer.city]} selectedPoint={selectedOffer.city}/>
-              </section>
             </section>
             <div className="container">
               <section className="near-places places">
@@ -172,9 +192,9 @@ export function OfferScreen(): JSX.Element {
                         </div>
                       </div>
                       <h2 className="place-card__name">
-                        <a href="#">{selectedOffer.title}</a>
+                        <a href="#">{currentOffer.title}</a>
                       </h2>
-                      <p className="place-card__type">{selectedOffer.type}</p>
+                      <p className="place-card__type">{currentOffer.type}</p>
                     </div>
                   </article>
                   <article className="near-places__card place-card">

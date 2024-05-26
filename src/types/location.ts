@@ -1,4 +1,4 @@
-export type Coordinate = {
+export type Location = {
     latitude: number;
     longitude: number;
     zoom: number;
@@ -6,5 +6,5 @@ export type Coordinate = {
 
 export type City = {
     name: string;
-    location: Coordinate;
+    location: Location;
 };

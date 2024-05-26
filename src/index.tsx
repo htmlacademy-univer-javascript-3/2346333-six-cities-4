@@ -6,8 +6,8 @@ import { checkAuthAction, fetchOffersAction } from './services/api-actions';
 import { Provider } from 'react-redux';
 import { ErrorMessage } from './components/error-message/error-message';
 
-store.dispatch(fetchOffersAction());
 store.dispatch(checkAuthAction());
+store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

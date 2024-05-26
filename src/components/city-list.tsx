@@ -1,4 +1,4 @@
-import { City } from '../types/coordinate';
+import { City } from '../types/location';
 import { cities } from '../const';
 
 
