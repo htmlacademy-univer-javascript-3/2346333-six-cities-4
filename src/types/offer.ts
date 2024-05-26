@@ -1,4 +1,4 @@
-import { City } from './coordinate';
+import { City } from './location';
 import { User } from './comment';
 
 export type Offer = {

@@ -1,16 +1,21 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { changeCity, changeSortOption, loadOfferList, requireAuthorization, setError, setOffersDataLoadingStatus } from './action';
+import { changeCity, changeSortOption, getOfferById, loadComments, loadNearbyOffers, loadOfferList, requireAuthorization, setError, setOffersDataLoadingStatus } from './action';
 import { AuthorizationStatus, SortType } from '../const';
-import { City } from '../types/coordinate';
-import { Offers } from '../types/offer';
+import { City } from '../types/location';
+import { Offer, Offers } from '../types/offer';
+import { Comments } from '../types/comment';
 
 type InitialState = {
   city: City;
   offers: Offers;
-  sortingOption: SortType;
+  currentOffer?: Offer;
+  nearOffers: Offers;
+  comments: Comments;
+  sortingOption: SortType; //?
   authorizationStatus: AuthorizationStatus;
-  error: string | null;
+  error: string | null; //
   isOffersDataLoading: boolean;
+  //email, favourites offers
 }
 
 const initialState: InitialState = {
@@ -22,6 +27,8 @@ const initialState: InitialState = {
       zoom: 0
     }},
   offers: [],
+  nearOffers: [],
+  comments: [],
   sortingOption: SortType.Start,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
@@ -36,6 +43,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOfferList, (state, action) => {
       state.offers = action.payload;
     })
+    .addCase(getOfferById, (state, action) => {
+      state.currentOffer = action.payload;
+    })
     .addCase(changeSortOption, (state, action) => {
       state.sortingOption = action.payload;
     })
@@ -47,5 +57,11 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearOffers = action.payload;
     });
 });

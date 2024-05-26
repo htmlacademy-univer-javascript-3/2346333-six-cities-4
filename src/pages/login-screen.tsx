@@ -19,9 +19,8 @@ export function LoginScreen(): JSX.Element {
       dispatch(loginAction({
         login: loginRef.current.value,
         password: passwordRef.current.value
-      })).then(() => {
-        navigate(AppRoute.Root);
-      });
+      }));
+      navigate(AppRoute.Root);
     }
   };
 
@@ -31,7 +30,7 @@ export function LoginScreen(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <a className="header__logo-link" href="#">
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </a>
             </div>
@@ -46,11 +45,11 @@ export function LoginScreen(): JSX.Element {
             <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email"/>
+                <input className="login__input form__input" type="email" name="email" placeholder="Email" required ref={loginRef}/>
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password"/>
+                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef}/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
