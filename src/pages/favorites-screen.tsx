@@ -1,11 +1,10 @@
-
 import { OfferList } from '../components/offer-list';
-import { useSelector } from 'react-redux';
-import { State } from '../types/state';
+import { useAppSelector } from '../hooks';
+import { getOffers } from '../store/favorite-data/selector';
 
 
 export function FavoritesScreen(): JSX.Element {
-  const offers = useSelector((state: State) => state.offers);
+  const offers = useAppSelector(getOffers);
   return (
     <div className="page">
       <header className="header">

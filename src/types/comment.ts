@@ -1,12 +1,12 @@
 type Comment = {
     id: string;
     date: string;
-    user: User;
+    user: UserData;
     comment: string;
     rating: number;
 };
 
-export type User = {
+export type UserData = {
     name: string;
     avatarUrl: string;
     isPro: boolean;
@@ -15,3 +15,4 @@ export type User = {
 };
 
 export type Comments = Comment[];
+export type CommentData = Omit<Comment, 'user' | 'date'>;

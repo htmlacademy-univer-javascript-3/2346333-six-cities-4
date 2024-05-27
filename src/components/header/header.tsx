@@ -1,11 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { logoutAction } from '../../services/api-actions';
+import { logoutAction } from '../../store/user-process/api-action';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 export function Header(): JSX.Element {
   const dispatch = useDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const handleSignOutClick = () => {
     dispatch(logoutAction());

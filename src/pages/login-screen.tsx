@@ -1,7 +1,7 @@
 import { FormEvent, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
-import { loginAction } from '../services/api-actions';
+import { loginAction } from '../store/user-process/api-action';
 import { AppRoute } from '../const';
 
 export function LoginScreen(): JSX.Element {

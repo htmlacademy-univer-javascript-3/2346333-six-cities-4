@@ -1,9 +1,5 @@
 import { City } from './types/location';
 
-export const Setting = {
-  offerCount: 5
-};
-
 export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
@@ -88,5 +84,13 @@ export enum SortType {
   PriceLowToHigh = 'Price: low to high',
   PriceHighToLow = 'Price: high to low',
   Rating = 'Top rated first',
-  Start = 'Popular',
+  Popular = 'Popular',
+}
+
+export enum NameSpace {
+  Offers = 'OFFERS',
+  User = 'USER',
+  Offer = 'OFFER',
+  App = 'APP',
+  Favorite = 'FAVORITE',
 }

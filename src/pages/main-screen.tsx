@@ -1,22 +1,20 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { OfferList } from '../components/offer-list';
 import { Map } from '../components/map';
 import { changeCity, changeSortOption } from '../store/action';
-import { State } from '../types/state';
 import { CityList } from '../components/city-list';
 import { SortOptions } from '../components/sort-options';
 import { SortType } from '../const';
-import { useMemo } from 'react';
-import { sortOffers } from '../util';
 import { Header } from '../components/header/header';
+import { getCity, getOffers } from '../store/favorite-data/selector';
+import { useAppSelector } from '../hooks';
 
 export function MainScreen(): JSX.Element {
   const dispatch = useDispatch();
-  const city = useSelector((state: State) => state.city);
-  const offers = useSelector((state: State) => state.offers);
-  const selectedOption = useSelector((state: State) => state.sortingOption);
+  const city = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
 
-  const sortedOffers = useMemo(() => sortOffers(offers, selectedOption), [offers, selectedOption]);
+  // Получение координат из предложений
   const coordinates = offers.map((point) => point.city);
   const offerCount = offers.length;
 
@@ -26,30 +24,34 @@ export function MainScreen(): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header/>
+      <Header />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <CityList selectedCity={city} changeCity={(newCity) => dispatch(changeCity(newCity))} />
-          </section>
-        </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offerCount} places to stay in {city.name}</b>
-              <SortOptions sortType={selectedOption} onChangeSort={handleSortChange}/>
-              <OfferList offers={sortedOffers} />
+        {city && (
+          <div className="tabs">
+            <section className="locations container">
+              <CityList selectedCity={city} changeCity={(newCity) => dispatch(changeCity(newCity))} />
             </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map city={city} coordinates={coordinates} selectedPoint={undefined} />
+          </div>
+        )}
+        {city && (
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{offerCount} places to stay in {city.name}</b>
+                <SortOptions sortType={SortType.Popular} onChangeSort={handleSortChange} />
+                <OfferList offers={offers} />
               </section>
+              <div className="cities__right-section">
+                <section className="cities__map map">
+                  <Map city={city} coordinates={coordinates} selectedPoint={undefined} />
+                </section>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );
