@@ -1,21 +1,27 @@
 import { MainScreen } from '../pages/main-screen';
-import {HelmetProvider} from 'react-helmet-async';
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { LoginScreen } from '../pages/login-screen';
 import { FavoritesScreen } from '../pages/favorites-screen';
 import { OfferScreen } from '../pages/offer-screen';
 import { NotFoundScreen } from '../pages/not-found-screen';
 import { PrivateRoute } from './private-route';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { getAuthorizationStatus } from '../store/user-process/selectors';
+import { checkAuthAction } from '../store/user-process/api-action';
+import { useEffect } from 'react';
 import { Spinner } from '../pages/loading-screen/spinner';
 
-
 export function App(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkAuthAction());
+  }, [dispatch]);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
     return (
       <Spinner />
     );
@@ -34,7 +40,7 @@ export function App(): JSX.Element {
             element={<LoginScreen />}
           />
           <Route
-            path={`${AppRoute.Offer}/:offerId`}
+            path={`${AppRoute.Offer}/:id`}
             element={<OfferScreen />}
           />
           <Route

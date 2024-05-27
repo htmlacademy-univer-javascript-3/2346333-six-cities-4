@@ -1,5 +1,5 @@
 import { City } from './location';
-import { User } from './comment';
+import { UserData } from './comment';
 
 export type Offer = {
     id: string;
@@ -16,7 +16,7 @@ export type Offer = {
     bedrooms: number;
     muxAdults: number;
     goods: string[];
-    host: User;
+    host: UserData;
     images: string[];
     isActive: boolean;
 };
