@@ -4,7 +4,8 @@ export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  Root = '/'
+  Root = '/',
+  NotFound = '/*',
 }
 
 export enum APIRoute {
@@ -13,6 +14,7 @@ export enum APIRoute {
   Favorite = '/favorite',
   Comments = '/comments',
   Logout = '/logout',
+  Nearby = '/nearby',
 }
 
 export enum AuthorizationStatus {
@@ -93,4 +95,21 @@ export enum NameSpace {
   Offer = 'OFFER',
   App = 'APP',
   Favorite = 'FAVORITE',
+  ReviewsData = 'REVIEWS_DATA',
+  NearOffersData = 'NEAR_OFFERS_DATA',
 }
+
+export enum LoadingStatus {
+  Idle = 'idle',
+  Loading = 'loading',
+  Success = 'success',
+  Error = 'error',
+}
+
+export const StarRate = {
+  terribly: 1,
+  badly: 2,
+  'not bad': 3,
+  good: 4,
+  perfect: 5,
+};

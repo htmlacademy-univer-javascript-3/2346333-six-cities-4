@@ -11,3 +11,40 @@ export function sortOffers(offers: Offer[], sortType: SortType): Offer[] {
         ? b.rating - a.rating
         : 0);
 }
+
+export const formatRating = (rate: number) => `${(rate / 5) * 100}%`;
+
+export const initialOffer: Offer = {
+  id: '',
+  title: '',
+  type: '',
+  price: 0,
+  city: {
+    name: '',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
+  },
+  location: {
+    latitude: 0,
+    longitude: 0,
+    zoom: 0,
+  },
+  isFavorite: false,
+  isPremium: false,
+  rating: 0,
+  previewImage: '',
+  description: '',
+  bedrooms: 0,
+  maxAdults: 0,
+  goods: [],
+  host: {
+    id: 0,
+    name: '',
+    isPro: false,
+    avatarUrl: '',
+  },
+  images: [],
+};

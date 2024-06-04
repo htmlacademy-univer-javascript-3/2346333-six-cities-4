@@ -1,29 +1,22 @@
 import { Offer } from '../types/offer';
 import { Link } from 'react-router-dom';
-import { FavoriteButton } from './favorite-button';
 import { formatRating } from '../util';
+import { FavoriteButton } from './favorite-button';
 
-type CardProps = {
+
+type NearOfferCardProps = {
   offer: Offer;
-  onMouseOver: (point: Offer | null) => void;
 };
 
-export function PlaceCard({offer, onMouseOver: handlePointLocationChange}: CardProps): JSX.Element {
+export function NearOfferCard({ offer }: NearOfferCardProps): JSX.Element {
   return (
     <article
-      onMouseOver={(evt) => {
-        evt.preventDefault();
-        handlePointLocationChange(offer);
-      }}
-      onMouseLeave={(evt) => {
-        evt.preventDefault();
-        handlePointLocationChange(null);
-      }}
-      className="cities__card place-card"
+      className="near-places__card place-card"
     >
       <Link to={`/offer/${offer.id}`}>
         {offer.isPremium && <div className="place-card__mark"> <span>Premium</span> </div>}
         <div className="cities__image-wrapper place-card__image-wrapper">
+
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
         </div>
         <div className="place-card__info">

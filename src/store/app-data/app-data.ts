@@ -1,22 +1,28 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {NameSpace} from '../../const';
+import {cities, NameSpace, SortType} from '../../const';
+import { City } from '../../types/location';
 
-type AppDataState = {
-  error: string | null;
+export type AppDataState = {
+  selectedCity: City;
+  selectedSortType: SortType;
 };
 
 const initialState: AppDataState = {
-  error: null,
+  selectedCity: cities[0],
+  selectedSortType: SortType.Popular,
 };
 
-export const AppData = createSlice({
+export const appData = createSlice({
   name: NameSpace.App,
   initialState,
   reducers: {
-    changeError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
+    changeCity: (state, action: PayloadAction<City>) => {
+      state.selectedCity = action.payload;
     },
-  }
+    changeSortingType: (state, action: PayloadAction<SortType>) => {
+      state.selectedSortType = action.payload;
+    },
+  },
 });
 
-export const {changeError} = AppData.actions;
+export const { changeCity, changeSortingType } = appData.actions;

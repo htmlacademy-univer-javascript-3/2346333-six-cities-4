@@ -1,8 +1,9 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
 import { loginAction } from '../store/user-process/api-action';
 import { AppRoute } from '../const';
+import { HeaderLogo } from '../components/header/header-logo';
 
 export function LoginScreen(): JSX.Element {
 
@@ -12,13 +13,24 @@ export function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [error, setError] = useState<string>('');
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
+      const password = passwordRef.current.value;
+      const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/;
+
+      if (!passwordPattern.test(password)) {
+        setError('Password must contain at least one letter and one number.');
+        return;
+      }
+
+      setError('');
       dispatch(loginAction({
         login: loginRef.current.value,
-        password: passwordRef.current.value
+        password: password
       }));
       navigate(AppRoute.Root);
     }
@@ -30,9 +42,7 @@ export function LoginScreen(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="#">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              <HeaderLogo />
             </div>
           </div>
         </div>
@@ -50,6 +60,7 @@ export function LoginScreen(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef}/>
+                {error && <div className="error-message">{error}</div>}
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

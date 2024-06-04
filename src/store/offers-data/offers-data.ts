@@ -1,54 +1,50 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {fetchOffersAction} from './api-action';
-import { Offer } from '../../types/offer';
-import {SortType, NameSpace, cities} from '../../const';
-import { City } from '../../types/location';
+import { Offer, Offers } from '../../types/offer';
+import {NameSpace} from '../../const';
 
-const START_CITY = cities.find((city) => city.name === 'Paris');
-
-type OffersDataState = {
-  city: City | undefined;
-  offers: Offer[];
-  selectedOfferId: number | null;
-  isOffersDataLoading: boolean;
-  sortType: SortType;
+export type OffersDataState = {
+    offers: Offers;
+    isOffersDataLoading: boolean;
+    hasError: boolean;
 };
 
 const initialState: OffersDataState = {
-  city: START_CITY,
-  offers: [] as Offer[],
-  selectedOfferId: null,
+  offers: [] as Offers,
   isOffersDataLoading: false,
-  sortType: SortType.Popular,
+  hasError: false,
+};
+
+export const updateOffers = (offers: Offer[], updatedOffer: Offer) => {
+  const offerIndex = offers.findIndex((element) => element.id === updatedOffer.id);
+  if (offerIndex !== -1) {
+    offers[offerIndex] = updatedOffer;
+  }
 };
 
 export const offersData = createSlice({
   name: NameSpace.Offers,
   initialState,
   reducers: {
-    changeCity: (state, action: PayloadAction<City>) => {
-      state.city = action.payload;
+    updateMultipleOffers: (state, action: PayloadAction<Offer>) => {
+      updateOffers(state.offers, action.payload);
     },
-    changeSort: (state, action: PayloadAction<SortType>) => {
-      state.sortType = action.payload;
-    },
-    selectOffer: (state, action: PayloadAction<number | null>) => {
-      state.selectedOfferId = action.payload;
-    }
   },
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
+        state.hasError = false;
         state.isOffersDataLoading = true;
       })
-      .addCase(fetchOffersAction.rejected, (state) => {
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.offers = action.payload;
         state.isOffersDataLoading = false;
       })
-      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.hasError = true;
         state.isOffersDataLoading = false;
-        state.offers = action.payload;
       });
-  }
+  },
 });
 
-export const {changeCity, changeSort, selectOffer} = offersData.actions;
+export const { updateMultipleOffers } = offersData.actions;

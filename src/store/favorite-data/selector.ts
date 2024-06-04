@@ -1,8 +1,8 @@
 import { NameSpace } from '../../const';
+import { Offers } from '../../types/offer';
 import { State } from '../../types/state';
 
-
-export const getOffers = (state: State) => state[NameSpace.Offers].offers;
-export const getCity = (state: State) => state[NameSpace.Offers].city;
-export const getIsOffersDataLoading = (state: State) => state[NameSpace.Offers].isOffersDataLoading;
-export const getSelectedOfferId = (state: State): number | null => state[NameSpace.Offers].selectedOfferId;
+export const getFavorites = (state: State): Offers => state[NameSpace.Favorite].favorites;
+export const getFavoritesCount = (state: State): number => state[NameSpace.Favorite].favorites.length;
+export const getIsFavoritesLoading = (state: State): boolean => state[NameSpace.Favorite].isFavoritesLoading;
+export const getIsFavoriteStatusSubmitting = (state: State): boolean => state[NameSpace.Favorite].isFavoriteStatusSubmitting;

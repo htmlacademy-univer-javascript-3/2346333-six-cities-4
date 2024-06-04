@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { SortType } from '../const';
+import { useAppSelector } from '../hooks';
+import { getSelectedSortType } from '../store/app-data/selectors';
+import { changeSortingType } from '../store/app-data/app-data';
 
-type SortOptionsProps = {
-  sortType: SortType;
-  onChangeSort: (sortType: SortType) => void;
-};
-
-export const SortOptions = ({ sortType, onChangeSort }: SortOptionsProps) => {
+export const SortOptions = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const sortType = useAppSelector(getSelectedSortType);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -14,7 +15,7 @@ export const SortOptions = ({ sortType, onChangeSort }: SortOptionsProps) => {
   };
 
   const handleOptionClick = (option: SortType) => {
-    onChangeSort(option);
+    dispatch(changeSortingType(option));
     setIsOpen(false);
   };
 
