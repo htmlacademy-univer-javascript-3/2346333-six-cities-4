@@ -14,6 +14,11 @@ export function sortOffers(offers: Offer[], sortType: SortType): Offer[] {
 
 export const formatRating = (rate: number) => `${(rate / 5) * 100}%`;
 
+export function getRandomArrayElement<T>(array: T[]) {
+  const index = Math.floor(Math.random() * array.length);
+  return array[index];
+}
+
 export const initialOffer: Offer = {
   id: '',
   title: '',

@@ -31,8 +31,13 @@ export const URL_MARKER_DEFAULT =
 export const URL_MARKER_CURRENT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
-export const cities: City[] = [
-  {
+type Cities = {
+    [key: string]: City;
+  };
+
+
+export const cities: Cities = {
+  Paris: {
     name: 'Paris',
     location: {
       latitude: 48.85661,
@@ -40,15 +45,7 @@ export const cities: City[] = [
       zoom: 13
     }
   },
-  {
-    name: 'Brussels',
-    location: {
-      latitude: 50.846557,
-      longitude: 4.351697,
-      zoom: 13
-    }
-  },
-  {
+  Cologne: {
     name: 'Cologne',
     location: {
       latitude: 50.938361,
@@ -56,7 +53,15 @@ export const cities: City[] = [
       zoom: 13
     }
   },
-  {
+  Brussels: {
+    name: 'Brussels',
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
+      zoom: 13
+    }
+  },
+  Amsterdam: {
     name: 'Amsterdam',
     location: {
       latitude: 52.37454,
@@ -64,7 +69,7 @@ export const cities: City[] = [
       zoom: 13
     }
   },
-  {
+  Hamburg: {
     name: 'Hamburg',
     location: {
       latitude: 53.550341,
@@ -72,15 +77,15 @@ export const cities: City[] = [
       zoom: 13
     }
   },
-  {
+  Dusseldorf: {
     name: 'Dusseldorf',
     location: {
       latitude: 51.225402,
       longitude: 6.776314,
       zoom: 13
     }
-  },
-];
+  }
+};
 
 export enum SortType {
   PriceLowToHigh = 'Price: low to high',

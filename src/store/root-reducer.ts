@@ -9,10 +9,10 @@ import { reviewsData } from './review-data/review-data';
 import { nearOffersData } from './near-offers-data/near-offers-data';
 
 export const reducer = combineReducers({
+  [NameSpace.App]: appData.reducer,
   [NameSpace.User]: userProcess.reducer,
   [NameSpace.Offers]: offersData.reducer,
   [NameSpace.Offer]: offerData.reducer,
-  [NameSpace.App]: appData.reducer,
   [NameSpace.Favorite]: favoritesData.reducer,
   [NameSpace.ReviewsData]: reviewsData.reducer,
   [NameSpace.NearOffersData]: nearOffersData.reducer,

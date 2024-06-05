@@ -15,7 +15,7 @@ import { fetchOfferAction } from '../store/offer-data/api-action';
 import { fetchNearbyAction } from '../store/near-offers-data/api-actions';
 import { fetchReviewsAction } from '../store/review-data/api-action';
 import { getIsOfferDataLoading, getOfferItem } from '../store/offer-data/selector';
-import { ErrorScreen } from './error-screen/error-screen';
+import { NotFoundScreen } from './not-found-screen';
 
 
 export function OfferScreen(): JSX.Element {
@@ -43,7 +43,7 @@ export function OfferScreen(): JSX.Element {
   }, [dispatch, id]);
 
   if (!currentOffer) {
-    return <ErrorScreen />;
+    return <NotFoundScreen />;
   }
 
   return isAllLoading ? <Spinner /> : (

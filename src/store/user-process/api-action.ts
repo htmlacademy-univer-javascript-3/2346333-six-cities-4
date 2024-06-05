@@ -28,14 +28,10 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   }>(
     `${NameSpace.User}/login`,
     async ({login: email, password}, { dispatch, extra: api }) => {
-      try {
-        const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
-        dispatch(fetchOffersAction());
-        saveToken(data.token);
-        return data;
-      } catch {
-        throw new Error();
-      }
+      const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+      dispatch(fetchOffersAction());
+      saveToken(data.token);
+      return data;
     },
   );
 
@@ -46,12 +42,8 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   }>(
     `${NameSpace.User}/logout`,
     async (_arg, { dispatch, extra: api }) => {
-      try {
-        await api.delete(APIRoute.Logout);
-        dispatch(fetchOffersAction());
-        dropToken();
-      } catch {
-        throw new Error();
-      }
+      await api.delete(APIRoute.Logout);
+      dispatch(fetchOffersAction());
+      dropToken();
     },
   );
