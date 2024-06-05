@@ -31,12 +31,12 @@ export const URL_MARKER_DEFAULT =
 export const URL_MARKER_CURRENT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
+
 type Cities = {
     [key: string]: City;
   };
 
-
-export const cities: Cities = {
+export const CITIES: Cities = {
   Paris: {
     name: 'Paris',
     location: {

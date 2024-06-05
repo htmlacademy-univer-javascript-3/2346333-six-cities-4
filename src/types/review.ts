@@ -1,4 +1,4 @@
-export type Comment = {
+export type Review = {
     id: string;
     date: string;
     user: UserData;
@@ -14,9 +14,9 @@ export type UserData = {
     token: string;
 };
 
-export type Comments = Comment[];
+export type Reviews = Review[];
 
-export type CommentData = {
+export type ReviewData = {
     comment: string;
     rating: number;
     offerId: string;

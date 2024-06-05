@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { OfferList } from '../components/offer-list';
 import { Map } from '../components/map';
 import { Header } from '../components/header/header';
@@ -16,10 +16,10 @@ export function MainScreen(): JSX.Element {
   const city = useAppSelector(getSelectedCity);
   const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
   const offers = useAppSelector(getOffers);
+
   const currentOffers = offers.filter((offer) => offer.city.name === city?.name);
   const selectedOption = useAppSelector(getSelectedSortType);
-  const sortedOffers = useMemo(() => sortOffers(currentOffers, selectedOption), [currentOffers, selectedOption]);
-
+  const sortedOffers = sortOffers(currentOffers, selectedOption);
   const [hoveredOffer, setHoveredOffer] = useState<Offer | null>(null);
 
   if (isOffersDataLoading) {

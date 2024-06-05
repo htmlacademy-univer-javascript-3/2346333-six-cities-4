@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { AuthData } from '../../types/auth-data';
-import { UserData } from '../../types/comment';
+import { UserData } from '../../types/review';
 import { AppDispatch } from '../../types/state';
 import { State } from '../../types/state';
 import { APIRoute, NameSpace } from '../../const';

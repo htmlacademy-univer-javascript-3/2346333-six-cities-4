@@ -1,4 +1,4 @@
-import './Spinner.css';
+import './spinner.css';
 
 export function Spinner(): JSX.Element {
   return (
