@@ -20,27 +20,30 @@ export const fetchFavoritesAction = createAsyncThunk<Offers, undefined, {
 }>(
   `${NameSpace.Favorite}/fetchFavorites`,
   async (_arg, { extra: api }) => {
-    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
+    const { data } = await api.get<Offers>(APIRoute.Favorite);
     return data;
   }
 );
 
+
 export const changeFavoriteStatusAction = createAsyncThunk<Offer, FavoritePayload, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
   `${NameSpace.Favorite}/changeFavoriteStatus`,
-  async({ id, status }, { extra: api, dispatch }) => {
+  async ({ status, id }, { rejectWithValue, extra: api, dispatch }) => {
     try {
-      const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${status}`);
+      const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${status ? 0 : 1}`);
       dispatch(updateMultipleOffers(data));
       dispatch(updateOffer(data));
       dispatch(updateMultipleFavorites(data));
       dispatch(updateMultipleNearby(data));
       return data;
-    } catch (error) {
-      throw new Error();
+    } catch (e) {
+      return rejectWithValue(e as Error);
     }
   }
 );
+

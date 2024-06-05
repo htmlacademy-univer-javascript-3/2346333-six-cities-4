@@ -10,10 +10,10 @@ export function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City)
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: city.location.latitude,
-          lng: city.location.longitude,
+          lat: city?.location.latitude,
+          lng: city?.location.longitude,
         },
-        zoom: 10
+        zoom: city?.location.zoom
       });
 
       const layer = new TileLayer(

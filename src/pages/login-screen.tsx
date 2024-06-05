@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginAction } from '../store/user-process/api-action';
-import { AppRoute, cities } from '../const';
+import { AppRoute, CITIES} from '../const';
 import { HeaderLogo } from '../components/header/header-logo';
 import { getIsSubmittingLogin } from '../store/user-process/selectors';
 import { changeCity } from '../store/app-data/app-data';
@@ -15,13 +15,13 @@ export function LoginScreen(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const isSubmittingLogin = useAppSelector(getIsSubmittingLogin);
 
-  const randomCity = getRandomArrayElement(Object.keys(cities));
-  const randomCityDetails: City = cities[randomCity];
+  const randomCity = getRandomArrayElement(Object.keys(CITIES));
+  const randomCityDetails: City = CITIES[randomCity];
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [, setError] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -67,7 +67,8 @@ export function LoginScreen(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef} disabled={isSubmittingLogin} />
+                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef}/>
+                {error && <div className="error-message">{error}</div>}
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

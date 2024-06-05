@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {cities, NameSpace, SortType} from '../../const';
+import {CITIES, NameSpace, SortType} from '../../const';
 import { City } from '../../types/location';
 
 export type AppDataState = {
@@ -8,7 +8,7 @@ export type AppDataState = {
 };
 
 const initialState: AppDataState = {
-  selectedCity: cities[0],
+  selectedCity: CITIES.Paris,
   selectedSortType: SortType.Popular,
 };
 

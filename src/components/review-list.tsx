@@ -1,15 +1,15 @@
-import { Comments } from '../types/comment';
+import { Reviews } from '../types/review';
 import { formatRating } from '../util';
 
 type ReviewListProps = {
-  comments: Comments;
+  reviews: Reviews;
 };
 
-export function ReviewList({ comments }: ReviewListProps): JSX.Element {
+export function ReviewList({ reviews }: ReviewListProps): JSX.Element {
 
   return (
     <ul className="reviews__list">
-      {comments.map((review) => (
+      {reviews.map((review) => (
         <li className="reviews__item" key={review.id}>
           <div className="reviews__user user">
             <div className="reviews__avatar-wrapper user__avatar-wrapper">

@@ -32,7 +32,7 @@ export function FavoriteButton({ isFavorite, id, width, height, buttonClass, act
 
     dispatch(
       changeFavoriteStatusAction({
-        id,
+        id: id,
         status: Number(isFavorite),
       })
     );

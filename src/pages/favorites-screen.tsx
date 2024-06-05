@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Header } from '../components/header/header';
-import { cities } from '../const';
+import { CITIES } from '../const';
 import { useAppSelector } from '../hooks';
 import { getFavorites, getIsFavoritesLoading } from '../store/favorite-data/selector';
 import { Spinner } from './loading-screen/spinner';
@@ -20,7 +20,7 @@ export function FavoritesScreen(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.values(cities).map((city) => {
+                {Object.values(CITIES).map((city) => {
                   const cityOffers = favoriteOffers.filter((offer) => offer.city.name === city.name);
                   return (cityOffers.length !== 0) && (
                     <li className="favorites__locations-items" key={city.name}>

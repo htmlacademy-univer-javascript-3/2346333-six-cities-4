@@ -1,4 +1,4 @@
-import { cities } from '../const';
+import { CITIES } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { changeCity } from '../store/app-data/app-data';
 import { getSelectedCity } from '../store/app-data/selectors';
@@ -9,7 +9,7 @@ export function CityList(): JSX.Element {
 
   return (
     <ul className="locations__list tabs__list">
-      {Object.entries(cities).map(([cityName, city]) => (
+      {Object.entries(CITIES).map(([cityName, city]) => (
         <li className="locations__item" key={cityName} onClick={(event) => {
           event.preventDefault();
           dispatch(changeCity(city));

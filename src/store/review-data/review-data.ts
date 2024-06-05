@@ -1,10 +1,10 @@
 import { LoadingStatus, NameSpace } from '../../const';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchReviewsAction, postReviewAction } from './api-action';
-import { Comments } from '../../types/comment';
+import { Reviews } from '../../types/review';
 
 type ReviewsData = {
-    reviews: Comments;
+    reviews: Reviews;
     isReviewsLoading: boolean;
     isReviewsStatusSubmitting: boolean;
     reviewsStatus: LoadingStatus;

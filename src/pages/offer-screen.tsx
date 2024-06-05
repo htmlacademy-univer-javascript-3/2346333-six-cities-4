@@ -30,6 +30,7 @@ export function OfferScreen(): JSX.Element {
   const isReviewsLoading = useAppSelector(getIsReviewsLoading);
   const isNearbyOffersLoading = useAppSelector(getIsNearbyOffersLoading);
 
+
   const isAllLoading = isOfferLoading || isNearbyOffersLoading || isReviewsLoading;
 
   const nearbyOffers = nearbyList.slice(0, 3);
@@ -131,7 +132,7 @@ export function OfferScreen(): JSX.Element {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <ReviewList
-                  comments={comments.slice().sort((a, b) => {
+                  reviews={comments.slice().sort((a, b) => {
                     const dateA = new Date(a.date).getTime();
                     const dateB = new Date(b.date).getTime();
                     return dateB - dateA;
@@ -143,7 +144,7 @@ export function OfferScreen(): JSX.Element {
           </div>
           <section className="offer__map map">
             <Map
-              city={nearbyOffers[0].city}
+              city={nearbyOffers[0]?.city}
               coordinates={nearbyOffers}
               selectedPoint={currentOffer}
             />
