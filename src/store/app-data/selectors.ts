@@ -1,4 +1,6 @@
-import { NameSpace } from '../../const';
+import { NameSpace, SortType } from '../../const';
+import { City } from '../../types/location';
 import { State } from '../../types/state';
 
-export const getError = (state: State) => state[NameSpace.App].error;
+export const getSelectedSortType = (state: State): SortType => state[NameSpace.App].selectedSortType;
+export const getSelectedCity = (state: State): City => state[NameSpace.App].selectedCity;

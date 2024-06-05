@@ -1,4 +1,4 @@
-type Comment = {
+export type Comment = {
     id: string;
     date: string;
     user: UserData;
@@ -15,4 +15,9 @@ export type UserData = {
 };
 
 export type Comments = Comment[];
-export type CommentData = Omit<Comment, 'user' | 'date'>;
+
+export type CommentData = {
+    comment: string;
+    rating: number;
+    offerId: string;
+  };

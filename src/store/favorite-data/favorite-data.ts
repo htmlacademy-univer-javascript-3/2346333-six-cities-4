@@ -1,48 +1,67 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
-import { fetchFavoritesAction, setFavoritesAction } from './api-action';
-import { Offers } from '../../types/offer';
+import { changeFavoriteStatusAction, fetchFavoritesAction } from './api-action';
+import { Offer, Offers } from '../../types/offer';
 
-type FavoritesData = {
+export type FavoritesData = {
   favorites: Offers;
-  setStatus: boolean | null;
+  isFavoritesLoading: boolean;
+  isFavoriteStatusSubmitting: boolean;
+  hasError: boolean;
 };
 
 const initialState: FavoritesData = {
   favorites: [],
-  setStatus: null,
+  isFavoritesLoading: false,
+  isFavoriteStatusSubmitting: false,
+  hasError: false,
 };
 
-export const FavoriteData = createSlice({
+export const updateFavorites = (favorites: Offer[], updatedOffer: Offer) => {
+  const favoriteOfferIndex = favorites.findIndex(
+    (element) => element.id === updatedOffer.id
+  );
+
+  if (updatedOffer.isFavorite && favoriteOfferIndex === -1) {
+    favorites.push(updatedOffer);
+  } else if (!updatedOffer.isFavorite && favoriteOfferIndex !== -1) {
+    favorites.splice(favoriteOfferIndex, 1);
+  }
+};
+
+
+export const favoritesData = createSlice({
   name: NameSpace.Favorite,
   initialState,
-  reducers: {},
+  reducers: {
+    updateMultipleFavorites: (state, action: PayloadAction<Offer>) => {
+      updateFavorites(state.favorites, action.payload);
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchFavoritesAction.pending, (state) => {
-        state.setStatus = null;
+        state.hasError = false;
+        state.isFavoritesLoading = true;
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-        state.setStatus = true;
         state.favorites = action.payload;
+        state.isFavoritesLoading = false;
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
-        state.setStatus = false;
+        state.hasError = true;
+        state.isFavoritesLoading = false;
       })
-      .addCase(setFavoritesAction.pending, (state) => {
-        state.setStatus = null;
+      .addCase(changeFavoriteStatusAction.pending, (state) => {
+        state.isFavoriteStatusSubmitting = true;
       })
-      .addCase(setFavoritesAction.fulfilled, (state, action) => {
-        state.setStatus = true;
-
-        if (action.payload.isFavorite) {
-          state.favorites.push(action.payload);
-        } else {
-          state.favorites = state.favorites.filter(({id}) => id !== action.payload.id);
-        }
+      .addCase(changeFavoriteStatusAction.fulfilled, (state) => {
+        state.isFavoriteStatusSubmitting = false;
       })
-      .addCase(setFavoritesAction.rejected, (state) => {
-        state.setStatus = false;
+      .addCase(changeFavoriteStatusAction.rejected, (state) => {
+        state.isFavoriteStatusSubmitting = false;
       });
   },
 });
+
+export const { updateMultipleFavorites } = favoritesData.actions;

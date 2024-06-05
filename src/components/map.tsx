@@ -1,26 +1,27 @@
 import { useRef, useEffect } from 'react';
-import {Icon, Marker, layerGroup} from 'leaflet';
+import { Icon, Marker, layerGroup } from 'leaflet';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../const';
 import { useMap } from '../hooks/use-map';
 import { City } from '../types/location';
 import 'leaflet/dist/leaflet.css';
+import { Offer, Offers } from '../types/offer';
 
 type MapProps = {
-    city: City;
-    coordinates: City[];
-    selectedPoint: City | undefined;
-}
+  city: City;
+  coordinates: Offers;
+  selectedPoint: Offer | null;
+};
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
   iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconAnchor: [20, 40],
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
   iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconAnchor: [20, 40],
 });
 
 export function Map({ city, coordinates, selectedPoint }: MapProps): JSX.Element {
@@ -30,15 +31,16 @@ export function Map({ city, coordinates, selectedPoint }: MapProps): JSX.Element
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
+
       coordinates.forEach((point) => {
         const marker = new Marker({
           lat: point.location.latitude,
-          lng: point.location.longitude
+          lng: point.location.longitude,
         });
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.name === selectedPoint.name
+            selectedPoint && point.id === selectedPoint.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -51,5 +53,29 @@ export function Map({ city, coordinates, selectedPoint }: MapProps): JSX.Element
     }
   }, [map, coordinates, selectedPoint]);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  useEffect(() => {
+    if (map) {
+      map.setView(
+        {
+          lat: city.location.latitude,
+          lng: city.location.longitude,
+        },
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
+  useEffect(() => {
+    if (map && selectedPoint) {
+      map.setView(
+        {
+          lat: selectedPoint.location.latitude,
+          lng: selectedPoint.location.longitude,
+        },
+        selectedPoint.location.zoom
+      );
+    }
+  }, [map, selectedPoint]);
+
+  return <div style={{ height: '500px' }} ref={mapRef}></div>;
 }

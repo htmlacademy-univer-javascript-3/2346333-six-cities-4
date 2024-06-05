@@ -1,4 +1,4 @@
-import { City } from './location';
+import { City, Location } from './location';
 
 export type Host = {
     id: number;
@@ -20,11 +20,10 @@ export type Offer = {
     previewImage: string;
     description: string;
     bedrooms: number;
-    muxAdults: number;
+    maxAdults: number;
     goods: string[];
     host: Host;
     images: string[];
-    //isActive: boolean;
 };
 
 export type Offers = Offer[];

@@ -1,7 +1,7 @@
-import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import { getToken } from './token';
+import axios, {AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig} from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { processErrorHandle } from './process-error-handle';
+import { getToken } from './token';
+import { toast } from 'react-toastify';
 
 type DetailMessageType = {
   type: string;
@@ -15,7 +15,6 @@ const StatusCodeMapping: Record<number, boolean> = {
 };
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
-
 const BACKEND_URL = 'https://14.design.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
@@ -24,6 +23,20 @@ export const createAPI = (): AxiosInstance => {
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError<DetailMessageType>) => {
+      if (error.response && shouldDisplayError(error.response)) {
+        const detailMessage = error.response.data;
+        toast.warn(detailMessage.message, {
+          position: 'top-center'
+        });
+      }
+
+      throw error;
+    }
+  );
 
   api.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
@@ -34,19 +47,6 @@ export const createAPI = (): AxiosInstance => {
       }
 
       return config;
-    },
-  );
-
-  api.interceptors.request.use(
-    (response) => response,
-    (error: AxiosError<DetailMessageType>) => {
-      if (error.response && shouldDisplayError(error.response)) {
-        const detailMessage = (error.response.data);
-
-        processErrorHandle(detailMessage.message);
-      }
-
-      throw error;
     }
   );
 

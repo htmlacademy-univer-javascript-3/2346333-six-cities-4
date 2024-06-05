@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './components/app';
+import { App } from './app';
 import { store } from './store';
 import { checkAuthAction } from './store/user-process/api-action';
 import { Provider } from 'react-redux';
-import { ErrorMessage } from './components/error-message/error-message';
+import { ToastContainer } from 'react-toastify';
 import { fetchOffersAction } from './store/offers-data/api-action';
+import 'react-toastify/dist/ReactToastify.css';
 
-store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
+store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,8 +18,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ErrorMessage />
       <App />
+      <ToastContainer />
     </Provider>
   </React.StrictMode>
 );
