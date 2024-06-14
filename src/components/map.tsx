@@ -9,35 +9,33 @@ import { Offer, Offers } from '../types/offer';
 type MapProps = {
   city: City;
   coordinates: Offers;
-  selectedPoint: Offer | null;
-};
+  selectedPoint: Offer | undefined;
+}
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
   iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconAnchor: [20, 40]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
   iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconAnchor: [20, 40]
 });
+
 
 export function Map({ city, coordinates, selectedPoint }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
-
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-
       coordinates.forEach((point) => {
         const marker = new Marker({
           lat: point.location.latitude,
-          lng: point.location.longitude,
+          lng: point.location.longitude
         });
-
         marker
           .setIcon(
             selectedPoint && point.id === selectedPoint.id
@@ -46,36 +44,10 @@ export function Map({ city, coordinates, selectedPoint }: MapProps): JSX.Element
           )
           .addTo(markerLayer);
       });
-
       return () => {
         map.removeLayer(markerLayer);
       };
     }
   }, [map, coordinates, selectedPoint]);
-
-  useEffect(() => {
-    if (map) {
-      map.setView(
-        {
-          lat: city.location.latitude,
-          lng: city.location.longitude,
-        },
-        city.location.zoom
-      );
-    }
-  }, [map, city]);
-
-  useEffect(() => {
-    if (map && selectedPoint) {
-      map.setView(
-        {
-          lat: selectedPoint.location.latitude,
-          lng: selectedPoint.location.longitude,
-        },
-        selectedPoint.location.zoom
-      );
-    }
-  }, [map, selectedPoint]);
-
-  return <div style={{ height: '500px' }} ref={mapRef}></div>;
+  return <div style={{height: '500px'}} ref={mapRef}></div>;
 }

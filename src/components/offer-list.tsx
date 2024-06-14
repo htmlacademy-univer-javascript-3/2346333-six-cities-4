@@ -3,7 +3,7 @@ import { PlaceCard } from './place-card';
 
 type OfferProps = {
   offers: Offers;
-  onMouseOver: (point: Offer | null) => void;
+  onMouseOver: (point: Offer | undefined) => void;
 };
 
 export function OfferList({ offers, onMouseOver }: OfferProps): JSX.Element {

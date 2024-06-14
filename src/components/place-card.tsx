@@ -5,7 +5,7 @@ import { formatRating } from '../util';
 
 type CardProps = {
   offer: Offer;
-  onMouseOver: (point: Offer | null) => void;
+  onMouseOver: (point: Offer | undefined) => void;
 };
 
 export function PlaceCard({offer, onMouseOver: handlePointLocationChange}: CardProps): JSX.Element {
@@ -17,7 +17,7 @@ export function PlaceCard({offer, onMouseOver: handlePointLocationChange}: CardP
       }}
       onMouseLeave={(evt) => {
         evt.preventDefault();
-        handlePointLocationChange(null);
+        handlePointLocationChange(undefined);
       }}
       className="cities__card place-card"
     >

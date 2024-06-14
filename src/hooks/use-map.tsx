@@ -11,7 +11,7 @@ export function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City)
       const instance = new Map(mapRef.current, {
         center: {
           lat: city?.location.latitude,
-          lng: city?.location.longitude,
+          lng: city?.location.longitude
         },
         zoom: city?.location.zoom
       });
@@ -30,6 +30,12 @@ export function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City)
       isRenderedRef.current = true;
     }
   }, [mapRef, city]);
+
+  useEffect(() => {
+    if (map) {
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+    }
+  }, [city, map]);
 
   return map;
 }
