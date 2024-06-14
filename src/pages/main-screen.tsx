@@ -20,7 +20,7 @@ export function MainScreen(): JSX.Element {
   const currentOffers = offers.filter((offer) => offer.city.name === city?.name);
   const selectedOption = useAppSelector(getSelectedSortType);
   const sortedOffers = sortOffers(currentOffers, selectedOption);
-  const [hoveredOffer, setHoveredOffer] = useState<Offer | null>(null);
+  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(undefined);
 
   if (isOffersDataLoading) {
     return <Spinner />;
